@@ -1,7 +1,10 @@
+// src/pages/Summary.jsx
+import { Link } from "react-router-dom";
+import { usePlan } from "../hooks/usePlan";
 import Header from "../Ui/Header";
 import styled from "styled-components";
+import Button from "../Ui/Button";
 
-// Styled components
 const SummaryContainer = styled.div`
   background-color: var(--Magnolia);
   border-radius: 10px;
@@ -46,6 +49,7 @@ const AddOnDetails = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  margin-top: 30px;
 
   p {
     font-size: 14px;
@@ -79,6 +83,35 @@ const TotalContainer = styled.div`
 `;
 
 function Summary() {
+  const {
+    state: { activePlan, isYearly, selectedAddOns },
+    planAmounts,
+  } = usePlan();
+
+  const planAmount =
+    planAmounts[activePlan]?.[isYearly ? "yearly" : "monthly"] || 0;
+
+  // Calculate add-ons total
+  const addOnsTotal = Object.keys(selectedAddOns).reduce((total, key) => {
+    if (selectedAddOns[key]) {
+      total +=
+        key === "onlineService"
+          ? isYearly
+            ? 10
+            : 1
+          : key === "largerStorage"
+          ? isYearly
+            ? 20
+            : 2
+          : isYearly
+          ? 20
+          : 2; // Assuming customizableProfile has same pricing as largerStorage
+    }
+    return total;
+  }, 0);
+
+  const totalAmount = planAmount + addOnsTotal;
+
   return (
     <div>
       <Header
@@ -90,28 +123,50 @@ function Summary() {
         {/* Plan details */}
         <PlanDetails>
           <PlanInfo>
-            <h4>Arcade (Monthly)</h4>
-            <a href="#">Change</a>
+            <h4>
+              {activePlan} ({isYearly ? "Yearly" : "Monthly"})
+            </h4>
+            <Link to="/Plans">Change</Link>
           </PlanInfo>
-          <Price>$9/mo</Price>
+          <Price>
+            ${planAmount}/{isYearly ? "yr" : "mo"}
+          </Price>
         </PlanDetails>
 
-        {/* Add-ons */}
-        <AddOnDetails>
-          <p>Online service</p>
-          <span>+$1/mo</span>
-        </AddOnDetails>
-        <AddOnDetails>
-          <p>Larger storage</p>
-          <span>+$2/mo</span>
-        </AddOnDetails>
+        {selectedAddOns.onlineService && (
+          <AddOnDetails>
+            <p>Online service</p>
+            <span>
+              +${isYearly ? 10 : 1}/{isYearly ? "yr" : "mo"}
+            </span>
+          </AddOnDetails>
+        )}
+        {selectedAddOns.largerStorage && (
+          <AddOnDetails>
+            <p>Larger storage</p>
+            <span>
+              +${isYearly ? 20 : 2}/{isYearly ? "yr" : "mo"}
+            </span>
+          </AddOnDetails>
+        )}
+        {selectedAddOns.customizableProfile && (
+          <AddOnDetails>
+            <p>Customizable profile</p>
+            <span>
+              +${isYearly ? 20 : 2}/{isYearly ? "yr" : "mo"}
+            </span>
+          </AddOnDetails>
+        )}
 
         {/* Total */}
         <TotalContainer>
-          <h4>Total (per month)</h4>
-          <span>+$12/mo</span>
+          <h4>Total ({isYearly ? "per year" : "per month"})</h4>
+          <span>
+            ${totalAmount}/{isYearly ? "yr" : "mo"}
+          </span>
         </TotalContainer>
       </SummaryContainer>
+      <Button value="/Approved" />
     </div>
   );
 }

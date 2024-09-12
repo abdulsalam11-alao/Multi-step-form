@@ -47,8 +47,7 @@ const AddOnPrice = styled.span`
   font-size: 16px;
 `;
 
-// AddOn component
-function AddOn({ title, description, price, isChecked, onChange }) {
+function AddOn({ title, description, price, isChecked, onChange, isYearly }) {
   return (
     <AddOnItem isChecked={isChecked} onClick={onChange}>
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -63,7 +62,9 @@ function AddOn({ title, description, price, isChecked, onChange }) {
           <p>{description}</p>
         </AddOnDetails>
       </div>
-      <AddOnPrice>+${price}/mo</AddOnPrice>
+      <AddOnPrice>
+        +${price}/{isYearly ? "yr" : "mo"}
+      </AddOnPrice>
     </AddOnItem>
   );
 }

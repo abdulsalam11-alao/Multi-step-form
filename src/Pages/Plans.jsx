@@ -1,5 +1,6 @@
-import { useState } from "react";
-import Card from "../Ui/Card"; // Adjust the path if necessary
+// src/pages/Plans.jsx
+import { usePlan } from "../hooks/usePlan";
+import Card from "../Ui/Card";
 import Header from "../Ui/Header";
 import Button from "../Ui/Button";
 import BackButton from "../Ui/BackButton";
@@ -32,16 +33,16 @@ const StyledFooter = styled.footer`
 `;
 
 function Plans() {
-  const [activePlan, setActivePlan] = useState("Arcade");
-  const [isYearly, setIsYearly] = useState(false); // State to track billing period
+  const {
+    state: { isYearly, activePlan },
+    setPlan,
+    toggleBilling,
+    planAmounts,
+  } = usePlan();
 
-  const handleCardClick = (plan) => {
-    setActivePlan(plan);
-  };
-
-  const handleToggle = () => {
-    setIsYearly((prev) => !prev); // Toggle between monthly and yearly
-  };
+  function getPlan(plan) {
+    return planAmounts[plan]?.[isYearly ? "yearly" : "monthly"] || 0;
+  }
 
   return (
     <div>
@@ -52,33 +53,33 @@ function Plans() {
       <StyledDiv>
         <Card
           text="Arcade"
-          amount={isYearly ? 90 : 9} // Update amount based on billing period
+          amount={getPlan("Arcade")}
           image="/icon-arcade.svg"
           isActive={activePlan === "Arcade"}
-          onClick={() => handleCardClick("Arcade")}
+          onClick={() => setPlan("Arcade")}
           isYearly={isYearly}
         />
         <Card
           text="Advanced"
-          amount={isYearly ? 120 : 12} // Update amount based on billing period
+          amount={getPlan("Advanced")}
           image="/icon-advanced.svg"
           isActive={activePlan === "Advanced"}
-          onClick={() => handleCardClick("Advanced")}
+          onClick={() => setPlan("Advanced")}
           isYearly={isYearly}
         />
         <Card
           text="Pro"
-          amount={isYearly ? 150 : 15} // Update amount based on billing period
+          amount={getPlan("Pro")}
           image="/icon-pro.svg"
           isActive={activePlan === "Pro"}
-          onClick={() => handleCardClick("Pro")}
+          onClick={() => setPlan("Pro")}
           isYearly={isYearly}
         />
       </StyledDiv>
       <StyledSection>
         <p>Monthly</p>
         <label className="switch">
-          <input type="checkbox" checked={isYearly} onChange={handleToggle} />
+          <input type="checkbox" checked={isYearly} onChange={toggleBilling} />
           <div className="slider round"></div>
         </label>
         <p>Yearly</p>

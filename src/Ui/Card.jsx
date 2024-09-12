@@ -43,7 +43,10 @@ function Card({ image, text, amount, isActive, onClick, isYearly }) {
       <img src={image} alt={image} />
       <span>
         {text}
-        <p>${amount}/mo</p>
+
+        <p>
+          ${amount}/{isYearly ? "yr" : "mo"}
+        </p>
       </span>
 
       {isYearly && <StyledP> 2 Months Free</StyledP>}
