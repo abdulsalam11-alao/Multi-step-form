@@ -6,7 +6,6 @@ const StyledAppLayout = styled.main`
   display: flex;
   justify-content: start;
   width: 900px;
-  border: 1px solid red;
   background-color: var(--White);
   height: 90vh;
   padding: 1.2rem 1.2rem;

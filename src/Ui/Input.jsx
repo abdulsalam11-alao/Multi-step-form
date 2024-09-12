@@ -11,12 +11,26 @@ const Styledinput = styled.input`
   font-family: "Ubuntu";
   line-height: 1.3rem;
 `;
-function Input({ typeOfInput, placeholder }) {
-  return <Styledinput type={typeOfInput} placeholder={placeholder} required />;
+
+function Input({ typeOfInput, placeholder, name, value, onChange }) {
+  return (
+    <Styledinput
+      type={typeOfInput}
+      placeholder={placeholder}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required
+    />
+  );
 }
 
 Input.propTypes = {
-  typeOfInput: propTypes.string,
-  placeholder: propTypes.string,
+  typeOfInput: propTypes.string.isRequired,
+  placeholder: propTypes.string.isRequired,
+  name: propTypes.string.isRequired,
+  value: propTypes.string.isRequired,
+  onChange: propTypes.func.isRequired,
 };
+
 export default Input;
