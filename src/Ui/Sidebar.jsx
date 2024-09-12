@@ -15,6 +15,7 @@ const StyledSidebar = styled.aside`
   padding-top: 30px;
   padding-left: 30px;
   border: 1px solid var(--Marine-blue);
+  font-family: "Ubuntu";
 `;
 const StyledNavLink = styled(NavLink)`
   width: 40px;

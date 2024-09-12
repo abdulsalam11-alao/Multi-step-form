@@ -53,6 +53,54 @@ body {
     margin-bottom: 40px;
     display: flex;
 }
+.switch{
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.switch input {
+    display: none;
+}
+.slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color:var(--Marine-blue); 
+    transition: .4s;  
+}
+.slider:before{
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--White);
+    transition: .4s;
+}
+input:checked + .slider{
+  background-color:var(--Marine-blue); 
+
+}
+input:focus + .slider{
+    box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before{
+    -webkit-transform: translate(26px);
+    -ms-transform: translate(26px);
+    transform: translateX(26px);
+}
+.slider.round{
+    border-radius: 34px;
+}
+.slider.round::before{
+    border-radius: 50%;
+}
+
 `;
 
 export default GlobalStyle;
