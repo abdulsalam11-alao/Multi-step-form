@@ -26,7 +26,7 @@ const StyledOutLet = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    width: auto;
     position: absolute;
     left: -10%;
     top: 10%;
