@@ -7,13 +7,14 @@ const StyledAppLayout = styled.main`
   justify-content: start;
   width: 900px;
   background-color: var(--White);
-  height: auto;
+  height: 90vh;
   padding: 1.2rem 1.2rem;
   margin-top: -30px;
   border-radius: 10px;
   @media screen and (max-width: 894px) {
     flex-direction: column;
     padding: 0;
+    height: auto;
   }
 `;
 const StyledOutLet = styled.div`
