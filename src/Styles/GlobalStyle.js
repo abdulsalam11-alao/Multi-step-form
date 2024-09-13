@@ -48,6 +48,10 @@ body {
     justify-content: center;
     justify-content: center;
     margin-top: 70px;
+
+    @media screen and (max-width: 894px) {
+      margin: 0;
+    }
 }
 .num{
     margin-bottom: 40px;

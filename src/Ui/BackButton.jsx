@@ -19,13 +19,13 @@ const StyledButton = styled.button`
   }
 `;
 
-function BackButton() {
+function BackButton({ value }) {
   const navigate = useNavigate();
   function handleNavigate(to) {
     navigate(to);
   }
   return (
-    <StyledButton onClick={() => handleNavigate(-1)}>Go Back</StyledButton>
+    <StyledButton onClick={() => handleNavigate(value)}>Go Back</StyledButton>
   );
 }
 

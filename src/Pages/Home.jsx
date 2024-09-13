@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Input from "../Ui/Input";
 import Header from "../Ui/Header";
 import Button from "../Ui/Button";
+import {
+  validateName,
+  validateEmail,
+  validatePhone,
+} from "../utils/formValidation";
+import Row from "../Ui/Row";
 
 const StyledHome = styled.div``;
 const StyledInput = styled.div`
@@ -19,10 +25,6 @@ const StyledFooter = styled.footer`
   display: flex;
   justify-content: end;
 `;
-const StyledDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 function Home() {
   const [formData, setFormData] = useState({
@@ -37,95 +39,45 @@ function Home() {
     phone: "",
   });
 
-  const [touched, setTouched] = useState({
-    name: false,
-    email: false,
-    phone: false,
-  });
-
   const [isValid, setIsValid] = useState(false);
 
   const { name, email, phone } = formData;
 
-  // Handle form input changes
+  // Handle form input changes and validate in real-time
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    // Update formData
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
-  };
 
-  // Handle input field blur (mark as touched)
-  const handleBlur = (e) => {
-    setTouched({
-      ...touched,
-      [e.target.name]: true,
-    });
-  };
-
-  // Validation functions
-  const validateName = (name) => {
-    if (!name.trim()) {
-      return "Name is required";
+    // Validate the current field
+    let newErrors = { ...errors };
+    if (name === "name") {
+      newErrors.name = validateName(value);
+    } else if (name === "email") {
+      newErrors.email = validateEmail(value);
+    } else if (name === "phone") {
+      newErrors.phone = validatePhone(value);
     }
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-      return "Name can only contain letters and spaces";
-    }
-    return "";
+
+    // Update error state
+    setErrors(newErrors);
+
+    // Check if the form is valid
+    const formIsValid = !newErrors.name && !newErrors.email && !newErrors.phone;
+    setIsValid(formIsValid); // Set form validity in real-time
   };
 
-  const validateEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      return "Invalid email address";
-    }
-    return "";
-  };
-
-  const validatePhone = (phone) => {
-    const phonePattern =
-      /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-    if (!phonePattern.test(phone)) {
-      return "Invalid phone number";
-    }
-    return "";
-  };
-
-  // Check if all form fields are valid
-  const isFormValid = () => {
-    const nameError = validateName(name);
-    const emailError = validateEmail(email);
-    const phoneError = validatePhone(phone);
-
-    setErrors({ name: nameError, email: emailError, phone: phoneError });
-
-    // If all errors are empty, the form is valid
-    return !nameError && !emailError && !phoneError;
-  };
-
-  useEffect(() => {
-    const nameError = validateName(name);
-    const emailError = validateEmail(email);
-    const phoneError = validatePhone(phone);
-
-    setErrors({ name: nameError, email: emailError, phone: phoneError });
-
-    // If all errors are empty, the form is valid
-    setIsValid(!nameError && !emailError && !phoneError);
-  }, [name, email, phone]);
-
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setTouched({
-      name: true,
-      email: true,
-      phone: true,
-    });
-
-    if (isFormValid()) {
+    if (isValid) {
       console.log("Form is valid. Proceeding to the next step.");
-      // Navigate to next page or perform desired action
+      // Navigate to next page or perform the next action
     } else {
       console.log("Form is invalid. Fix the errors.");
     }
@@ -139,12 +91,10 @@ function Home() {
       />
       <form onSubmit={handleSubmit}>
         <StyledInput>
-          <StyledDiv>
+          <Row>
             <label htmlFor="Name">Name</label>
-            {touched.name && errors.name && (
-              <span style={{ color: "red" }}>{errors.name}</span>
-            )}
-          </StyledDiv>
+            {errors.name && <span style={{ color: "red" }}>{errors.name}</span>}
+          </Row>
 
           <Input
             typeOfInput="text"
@@ -152,16 +102,15 @@ function Home() {
             name="name"
             value={name}
             onChange={handleInputChange}
-            onBlur={handleBlur} // Track when the field is blurred
           />
         </StyledInput>
         <StyledInput>
-          <StyledDiv>
+          <Row>
             <label htmlFor="Email Address">Email Address</label>
-            {touched.email && errors.email && (
+            {errors.email && (
               <span style={{ color: "red" }}>{errors.email}</span>
             )}
-          </StyledDiv>
+          </Row>
 
           <Input
             typeOfInput="email"
@@ -169,27 +118,25 @@ function Home() {
             name="email"
             value={email}
             onChange={handleInputChange}
-            onBlur={handleBlur} // Track when the field is blurred
           />
         </StyledInput>
         <StyledInput>
-          <StyledDiv>
+          <Row>
             <label htmlFor="Phone Number">Phone Number</label>
-            {touched.phone && errors.phone && (
+            {errors.phone && (
               <span style={{ color: "red" }}>{errors.phone}</span>
             )}
-          </StyledDiv>
+          </Row>
           <Input
             typeOfInput="tel"
             placeholder="e.g +1 234 567 890"
             name="phone"
             value={phone}
             onChange={handleInputChange}
-            onBlur={handleBlur} // Track when the field is blurred
           />
         </StyledInput>
         <StyledFooter>
-          <Button value="/Plans" disabled={!isValid} />
+          <Button value="/Plans" variation="next" disabled={!isValid} />
         </StyledFooter>
       </form>
     </StyledHome>

@@ -1,10 +1,10 @@
-// src/pages/AddOns.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "../Ui/Header";
 import AddOn from "../Ui/AddOn";
 import styled from "styled-components";
 import Button from "../Ui/Button";
 import { usePlan } from "../hooks/usePlan";
+import Row from "../Ui/Row";
 
 // Styled components
 const AddOnContainer = styled.div`
@@ -21,25 +21,25 @@ function AddOns() {
     largerStorage: false,
     customizableProfile: false,
   });
+
   const isFalsed = !(
     selectedAddOns.customizableProfile ||
     selectedAddOns.largerStorage ||
     selectedAddOns.onlineService
   );
+
+  // Handle add-on toggle
   const handleToggle = (addOn) => {
     setSelectedAddOns((prevState) => {
       const newState = {
         ...prevState,
         [addOn]: !prevState[addOn],
       };
-      setAddOns(newState); // Dispatch to context
+      // Update global state via context
+      setAddOns(newState);
       return newState;
     });
   };
-
-  useEffect(() => {
-    setAddOns(selectedAddOns); // Initialize add-ons in context on mount
-  }, [selectedAddOns, setAddOns]);
 
   return (
     <div>
@@ -73,7 +73,10 @@ function AddOns() {
           isYearly={state.isYearly}
         />
       </AddOnContainer>
-      <Button value="/summary" disabled={isFalsed} />
+      <Row>
+        <Button value="/plans" variation="back" />
+        <Button value="/summary" variation="next" disabled={isFalsed} />
+      </Row>
     </div>
   );
 }

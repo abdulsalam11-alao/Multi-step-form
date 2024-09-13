@@ -9,8 +9,8 @@ const AddOnItem = styled.div`
   padding: 20px;
   border: 1px solid var(--Purplish-blue);
   border-radius: 8px;
-  background-color: ${({ isChecked }) =>
-    isChecked ? "var(--Magnolia)" : "white"};
+  background-color: ${({ $isChecked }) =>
+    $isChecked ? "var(--Magnolia)" : "white"};
   cursor: pointer;
   transition: background-color 0.3s ease;
 
@@ -49,7 +49,7 @@ const AddOnPrice = styled.span`
 
 function AddOn({ title, description, price, isChecked, onChange, isYearly }) {
   return (
-    <AddOnItem isChecked={isChecked} onClick={onChange}>
+    <AddOnItem $isChecked={isChecked} onClick={onChange}>
       <div style={{ display: "flex", alignItems: "center" }}>
         <Checkbox
           type="checkbox"

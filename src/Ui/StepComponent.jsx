@@ -18,6 +18,9 @@ const StyledDiv = styled.div`
     text-transform: uppercase;
     font-size: 16px;
   }
+  @media screen and (max-width: 894px) {
+    display: none;
+  }
 `;
 
 function StepComponent({ Step, title }) {

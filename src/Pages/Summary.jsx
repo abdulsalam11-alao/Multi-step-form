@@ -4,12 +4,15 @@ import { usePlan } from "../hooks/usePlan";
 import Header from "../Ui/Header";
 import styled from "styled-components";
 import Button from "../Ui/Button";
+import Row from "../Ui/Row";
 
+// Styled components
 const SummaryContainer = styled.div`
   background-color: var(--Magnolia);
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
+  font-family: UbuntuR;
 `;
 
 const PlanDetails = styled.div`
@@ -33,7 +36,7 @@ const PlanInfo = styled.div`
 
   a {
     font-size: 14px;
-    color: var(--Purplish-blue);
+    color: var(--Cool-gray);
     cursor: pointer;
     text-decoration: underline;
   }
@@ -48,8 +51,7 @@ const Price = styled.div`
 const AddOnDetails = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
-  margin-top: 30px;
+  margin: 10px 0;
 
   p {
     font-size: 14px;
@@ -68,7 +70,6 @@ const TotalContainer = styled.div`
   justify-content: space-between;
   padding-top: 10px;
   margin-top: 10px;
-  border-top: 1px solid var(--Light-gray);
 
   h4 {
     font-size: 14px;
@@ -91,23 +92,15 @@ function Summary() {
   const planAmount =
     planAmounts[activePlan]?.[isYearly ? "yearly" : "monthly"] || 0;
 
-  // Calculate add-ons total
+  const addOnPrices = {
+    onlineService: isYearly ? 10 : 1,
+    largerStorage: isYearly ? 20 : 2,
+    customizableProfile: isYearly ? 20 : 2,
+  };
+
+  // Calculate total for add-ons
   const addOnsTotal = Object.keys(selectedAddOns).reduce((total, key) => {
-    if (selectedAddOns[key]) {
-      total +=
-        key === "onlineService"
-          ? isYearly
-            ? 10
-            : 1
-          : key === "largerStorage"
-          ? isYearly
-            ? 20
-            : 2
-          : isYearly
-          ? 20
-          : 2; // Assuming customizableProfile has same pricing as largerStorage
-    }
-    return total;
+    return selectedAddOns[key] ? total + addOnPrices[key] : total;
   }, 0);
 
   const totalAmount = planAmount + addOnsTotal;
@@ -123,50 +116,35 @@ function Summary() {
         {/* Plan details */}
         <PlanDetails>
           <PlanInfo>
-            <h4>
-              {activePlan} ({isYearly ? "Yearly" : "Monthly"})
-            </h4>
+            <h4>{`${activePlan} (${isYearly ? "Yearly" : "Monthly"})`}</h4>
             <Link to="/Plans">Change</Link>
           </PlanInfo>
-          <Price>
-            ${planAmount}/{isYearly ? "yr" : "mo"}
-          </Price>
+          <Price>{`$${planAmount}/${isYearly ? "yr" : "mo"}`}</Price>
         </PlanDetails>
 
-        {selectedAddOns.onlineService && (
-          <AddOnDetails>
-            <p>Online service</p>
-            <span>
-              +${isYearly ? 10 : 1}/{isYearly ? "yr" : "mo"}
-            </span>
-          </AddOnDetails>
+        {/* Add-ons */}
+        {Object.keys(selectedAddOns).map(
+          (addOnKey) =>
+            selectedAddOns[addOnKey] && (
+              <AddOnDetails key={addOnKey}>
+                <p>{addOnKey.replace(/([A-Z])/g, " $1").trim()}</p>
+                <span>{`+$${addOnPrices[addOnKey]}/${
+                  isYearly ? "yr" : "mo"
+                }`}</span>
+              </AddOnDetails>
+            )
         )}
-        {selectedAddOns.largerStorage && (
-          <AddOnDetails>
-            <p>Larger storage</p>
-            <span>
-              +${isYearly ? 20 : 2}/{isYearly ? "yr" : "mo"}
-            </span>
-          </AddOnDetails>
-        )}
-        {selectedAddOns.customizableProfile && (
-          <AddOnDetails>
-            <p>Customizable profile</p>
-            <span>
-              +${isYearly ? 20 : 2}/{isYearly ? "yr" : "mo"}
-            </span>
-          </AddOnDetails>
-        )}
-
-        {/* Total */}
-        <TotalContainer>
-          <h4>Total ({isYearly ? "per year" : "per month"})</h4>
-          <span>
-            ${totalAmount}/{isYearly ? "yr" : "mo"}
-          </span>
-        </TotalContainer>
       </SummaryContainer>
-      <Button value="/Approved" />
+
+      <TotalContainer>
+        <h4>{`Total (${isYearly ? "per year" : "per month"})`}</h4>
+        <span>{`$${totalAmount}/${isYearly ? "yr" : "mo"}`}</span>
+      </TotalContainer>
+
+      <Row>
+        <Button value="/Add-ons" variation="back" />
+        <Button value="/Approved" variation="custom" />
+      </Row>
     </div>
   );
 }

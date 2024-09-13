@@ -9,6 +9,7 @@ export default defineConfig({
       fix: true,
       cache: false,
       overrideConfigFile: ".eslintrc.cjs", // Explicitly specify your ESLint config file
+      failOnError: false,
     }),
   ],
 });

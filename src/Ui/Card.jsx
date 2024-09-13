@@ -8,11 +8,11 @@ const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid
-    ${({ isActive }) =>
-      isActive ? "var(--Purplish-blue)" : "var(--Light-gray)"};
+    ${({ $isActive }) =>
+      $isActive ? "var(--Purplish-blue)" : "var(--Light-gray)"};
   border-radius: 10px;
-  background: ${({ isActive }) =>
-    isActive ? "var(--Magnolia)" : "var(--White)"};
+  background: ${({ $isActive }) =>
+    $isActive ? "var(--Magnolia)" : "var(--White)"};
   color: var(--Marine-blue);
   margin: 10px;
   cursor: pointer;
@@ -39,7 +39,7 @@ const StyledP = styled.p`
 
 function Card({ image, text, amount, isActive, onClick, isYearly }) {
   return (
-    <StyledCard isActive={isActive} onClick={onClick}>
+    <StyledCard $isActive={isActive} onClick={onClick}>
       <img src={image} alt={image} />
       <span>
         {text}
