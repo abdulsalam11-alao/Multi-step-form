@@ -10,6 +10,10 @@ import Row from "../Ui/Row";
 const StyledDiv = styled.div`
   display: flex;
   grid-template-columns: auto auto auto;
+  @media screen and (max-width: 894px) {
+    display: block;
+    grid-template-columns: auto auto;
+  }
 `;
 
 const StyledSection = styled.section`
