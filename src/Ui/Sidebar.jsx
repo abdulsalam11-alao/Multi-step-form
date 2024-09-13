@@ -16,6 +16,15 @@ const StyledSidebar = styled.aside`
   padding-left: 30px;
   border: 1px solid var(--Marine-blue);
   font-family: "Ubuntu";
+  @media screen and (max-width: 894px) {
+    flex-direction: row;
+    justify-content: center;
+    background-image: url("/bg-sidebar-mobile.svg");
+    width: 100%;
+    height: 200px;
+    margin: 0;
+    position: relative;
+  }
 `;
 const StyledNavLink = styled(NavLink)`
   width: 40px;
@@ -23,7 +32,6 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
   border-radius: 50%;
   color: var(--White);
-
   border: 1px solid var(--White);
   padding: 5px 8px;
   display: flex;
@@ -37,9 +45,20 @@ const StyledNavLink = styled(NavLink)`
     background-color: var(--Light-blue);
     color: var(--Marine-blue);
   }
+
+  &.summary-active {
+    background-color: var(--Light-blue);
+    color: var(--Marine-blue);
+  }
+  @media screen and (max-width: 894px) {
+    margin-left: 20px;
+    margin-top: 20px;
+  }
 `;
 
 function Sidebar() {
+  console.log(window.location.pathname);
+
   return (
     <StyledSidebar>
       <div className="num">
@@ -55,8 +74,17 @@ function Sidebar() {
         <StepComponent Step="Step3" title="Add-ons" />
       </div>{" "}
       <div className="num">
-        <StyledNavLink to="summary">4</StyledNavLink>
-        <StepComponent Step="Step4" title="summary" />
+        <StyledNavLink
+          to="summary"
+          className={({ isActive }) =>
+            isActive || window.location.pathname === "/Approved"
+              ? "active summary-active"
+              : ""
+          }
+        >
+          4
+        </StyledNavLink>
+        <StepComponent Step="Step4" title="Summary" />
       </div>
     </StyledSidebar>
   );

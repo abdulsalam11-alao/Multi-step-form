@@ -3,8 +3,9 @@ import { usePlan } from "../hooks/usePlan";
 import Card from "../Ui/Card";
 import Header from "../Ui/Header";
 import Button from "../Ui/Button";
-import BackButton from "../Ui/BackButton";
+
 import styled from "styled-components";
+import Row from "../Ui/Row";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -24,12 +25,6 @@ const StyledSection = styled.section`
     font-family: UbuntuM;
     margin: 0px 10px;
   }
-`;
-
-const StyledFooter = styled.footer`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 `;
 
 function Plans() {
@@ -84,10 +79,10 @@ function Plans() {
         </label>
         <p>Yearly</p>
       </StyledSection>
-      <StyledFooter>
-        <BackButton />
-        <Button value="/Add-ons" />
-      </StyledFooter>
+      <Row>
+        <Button value="/Home" variation="back" />
+        <Button value="/Add-ons" variation="next" />
+      </Row>
     </div>
   );
 }
