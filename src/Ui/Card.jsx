@@ -29,6 +29,9 @@ const StyledCard = styled.div`
       color: var(--Cool-gray);
     }
   }
+  @media screen and (max-width: 894px) {
+    width: 100%;
+  }
 `;
 const StyledP = styled.p`
   margin-top: 10px;
