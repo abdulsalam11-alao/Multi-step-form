@@ -32,7 +32,7 @@ const StyledButton = styled.button`
   &:hover {
     background-color: ${(props) =>
       props.variation === "next"
-        ? "var(--Marine-blue)"
+        ? "var(--Purplish-blue)"
         : props.variation === "custom"
         ? "var(--Purplish-blue)"
         : "transparent"};

@@ -7,7 +7,8 @@ import AddOns from "./Pages/AddOns";
 import Plans from "./Pages/Plans";
 import Summary from "./Pages/Summary";
 import FinalPage from "./Pages/FinalPage";
-
+import PageNotFound from "./Pages/PageNotFound";
+import ProtectedRoute from "./Pages/ProtectedRoute";
 function App() {
   return (
     <>
@@ -18,10 +19,40 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="Home" />} />
               <Route path="Home" element={<Home />} />
-              <Route path="Plans" element={<Plans />} />
-              <Route path="Add-ons" element={<AddOns />} />
-              <Route path="summary" element={<Summary />} />
-              <Route path="Approved" element={<FinalPage />} />
+
+              <Route
+                path="Plans"
+                element={
+                  <ProtectedRoute>
+                    <Plans />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="Add-ons"
+                element={
+                  <ProtectedRoute>
+                    <AddOns />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="summary"
+                element={
+                  <ProtectedRoute>
+                    <Summary />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="Approved"
+                element={
+                  <ProtectedRoute>
+                    <FinalPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>
         </BrowserRouter>

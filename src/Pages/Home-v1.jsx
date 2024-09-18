@@ -1,10 +1,14 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Input from "../Ui/Input";
 import Header from "../Ui/Header";
 import Button from "../Ui/Button";
-
+import {
+  validateName,
+  validateEmail,
+  validatePhone,
+} from "../utils/formValidation";
 import Row from "../Ui/Row";
-import { usePlan } from "../hooks/usePlan";
 
 const StyledHome = styled.div``;
 const StyledInput = styled.div`
@@ -23,12 +27,19 @@ const StyledFooter = styled.footer`
 `;
 
 function Home() {
-  const {
-    state: { formData, formError, isValid },
-    setFormData,
-    ValidateForm,
-    setIsValid,
-  } = usePlan();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const [isValid, setIsValid] = useState(false);
 
   const { name, email, phone } = formData;
 
@@ -43,10 +54,23 @@ function Home() {
     });
 
     // Validate the current field
-    ValidateForm(name, value);
+    let newErrors = { ...errors };
+    if (name === "name") {
+      newErrors.name = validateName(value);
+    } else if (name === "email") {
+      newErrors.email = validateEmail(value);
+    } else if (name === "phone") {
+      newErrors.phone = validatePhone(value);
+    }
 
-    setIsValid();
+    // Update error state
+    setErrors(newErrors);
+
+    // Check if the form is valid
+    const formIsValid = !newErrors.name && !newErrors.email && !newErrors.phone;
+    setIsValid(formIsValid); // Set form validity in real-time
   };
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,9 +93,7 @@ function Home() {
         <StyledInput>
           <Row>
             <label htmlFor="Name">Name</label>
-            {formError?.name && (
-              <span style={{ color: "red" }}>{formError?.name}</span>
-            )}
+            {errors.name && <span style={{ color: "red" }}>{errors.name}</span>}
           </Row>
 
           <Input
@@ -80,14 +102,13 @@ function Home() {
             name="name"
             value={name}
             onChange={handleInputChange}
-            defaultValue={name}
           />
         </StyledInput>
         <StyledInput>
           <Row>
             <label htmlFor="Email Address">Email Address</label>
-            {formError?.email && (
-              <span style={{ color: "red" }}>{formError?.email}</span>
+            {errors.email && (
+              <span style={{ color: "red" }}>{errors.email}</span>
             )}
           </Row>
 
@@ -97,14 +118,13 @@ function Home() {
             name="email"
             value={email}
             onChange={handleInputChange}
-            defaultValue={email}
           />
         </StyledInput>
         <StyledInput>
           <Row>
             <label htmlFor="Phone Number">Phone Number</label>
-            {formError?.phone && (
-              <span style={{ color: "red" }}>{formError?.phone}</span>
+            {errors.phone && (
+              <span style={{ color: "red" }}>{errors.phone}</span>
             )}
           </Row>
           <Input
@@ -113,7 +133,6 @@ function Home() {
             name="phone"
             value={phone}
             onChange={handleInputChange}
-            defaultValue={phone}
           />
         </StyledInput>
         <StyledFooter>
