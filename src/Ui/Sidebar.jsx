@@ -20,9 +20,9 @@ const StyledSidebar = styled.aside`
     flex-direction: row;
     justify-content: center;
     background-image: url("/bg-sidebar-mobile.svg");
-    background-size: contain;
+    background-size: cover; /* Make the sidebar background responsive */
     width: 100%;
-    height: 200px;
+    height: 200px; /* Adjust sidebar height on smaller screens */
     margin: 0;
   }
 `;
