@@ -20,12 +20,13 @@ const StyledSidebar = styled.aside`
     flex-direction: row;
     justify-content: center;
     background-image: url("/bg-sidebar-mobile.svg");
-    background-size: contain;
+    background-size: cover; /* Make the sidebar background responsive */
     width: 100%;
-    height: 200px;
+    height: 200px; /* Adjust sidebar height on smaller screens */
     margin: 0;
   }
 `;
+
 const StyledNavLink = styled(NavLink)`
   width: 40px;
   height: 40px;
@@ -50,6 +51,7 @@ const StyledNavLink = styled(NavLink)`
     background-color: var(--Light-blue);
     color: var(--Marine-blue);
   }
+
   @media screen and (max-width: 894px) {
     margin-left: 20px;
     margin-top: 20px;
@@ -60,24 +62,22 @@ function Sidebar() {
   return (
     <StyledSidebar>
       <div className="num">
-        <StyledNavLink to="Home">1</StyledNavLink>
+        <StyledNavLink to="/Home">1</StyledNavLink>
         <StepComponent Step="Step1" title="Your Info" />
       </div>
       <div className="num">
-        <StyledNavLink to="Plans">2</StyledNavLink>
+        <StyledNavLink to="/Plans">2</StyledNavLink>
         <StepComponent Step="Step2" title="Select Plan" />
       </div>
       <div className="num">
-        <StyledNavLink to="Add-ons">3</StyledNavLink>
+        <StyledNavLink to="/Add-ons">3</StyledNavLink>
         <StepComponent Step="Step3" title="Add-ons" />
-      </div>{" "}
+      </div>
       <div className="num">
         <StyledNavLink
-          to="summary"
-          className={({ isActive }) =>
-            isActive || window.location.pathname === "/Approved"
-              ? "active summary-active"
-              : ""
+          to="/summary"
+          className={
+            window.location.pathname === "/Approved" ? "summary-active" : ""
           }
         >
           4

@@ -80,7 +80,6 @@ function Home() {
             name="name"
             value={name}
             onChange={handleInputChange}
-            defaultValue={name}
           />
         </StyledInput>
         <StyledInput>
@@ -97,7 +96,6 @@ function Home() {
             name="email"
             value={email}
             onChange={handleInputChange}
-            defaultValue={email}
           />
         </StyledInput>
         <StyledInput>
@@ -113,7 +111,6 @@ function Home() {
             name="phone"
             value={phone}
             onChange={handleInputChange}
-            defaultValue={phone}
           />
         </StyledInput>
         <StyledFooter>

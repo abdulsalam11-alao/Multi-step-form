@@ -18,7 +18,7 @@ function App() {
           <Routes>
             <Route element={<AppLayout />}>
               <Route index element={<Navigate replace to="Home" />} />
-              <Route path="Home" element={<Home />} />
+              <Route path="Home" caseSensitive={true} element={<Home />} />
 
               <Route
                 path="Plans"

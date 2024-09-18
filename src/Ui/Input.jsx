@@ -12,14 +12,7 @@ const Styledinput = styled.input`
   line-height: 1.3rem;
 `;
 
-function Input({
-  typeOfInput,
-  placeholder,
-  name,
-  value,
-  onChange,
-  defaultValue,
-}) {
+function Input({ typeOfInput, placeholder, name, value, onChange }) {
   return (
     <Styledinput
       type={typeOfInput}
@@ -28,7 +21,6 @@ function Input({
       value={value}
       onChange={onChange}
       required
-      defaultValue={defaultValue}
     />
   );
 }
