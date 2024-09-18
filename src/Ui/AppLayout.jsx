@@ -27,9 +27,10 @@ const StyledOutLet = styled.div`
     justify-content: center;
     align-items: center;
     width: auto;
-    position: absolute;
+    position: fixed;
     left: -10%;
     top: 10%;
+    right: 5%;
     background-color: white;
     padding: 20px;
     border-radius: 20px;

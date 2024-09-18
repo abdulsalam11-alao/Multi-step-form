@@ -20,10 +20,10 @@ const StyledSidebar = styled.aside`
     flex-direction: row;
     justify-content: center;
     background-image: url("/bg-sidebar-mobile.svg");
+    background-size: contain;
     width: 100%;
     height: 200px;
     margin: 0;
-    position: relative;
   }
 `;
 const StyledNavLink = styled(NavLink)`
@@ -57,8 +57,6 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function Sidebar() {
-  console.log(window.location.pathname);
-
   return (
     <StyledSidebar>
       <div className="num">

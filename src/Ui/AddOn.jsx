@@ -23,17 +23,18 @@ const AddOnDetails = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  font-family: "UbuntuM";
 
   h4 {
     margin: 0;
     color: var(--Marine-blue);
-    font-size: 16px;
+    font-size: 14px;
   }
 
   p {
     margin: 0;
     color: var(--Cool-gray);
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 

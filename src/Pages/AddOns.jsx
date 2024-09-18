@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Header from "../Ui/Header";
 import AddOn from "../Ui/AddOn";
 import styled from "styled-components";
@@ -14,32 +13,14 @@ const AddOnContainer = styled.div`
 `;
 
 function AddOns() {
-  const { state, setAddOns } = usePlan();
+  const {
+    state: { selectedAddOns, isYearly },
+    handleToggleAddons,
+  } = usePlan();
 
-  const [selectedAddOns, setSelectedAddOns] = useState({
-    onlineService: false,
-    largerStorage: false,
-    customizableProfile: false,
-  });
+  const { onlineService, largerStorage, customizableProfile } = selectedAddOns;
 
-  const isFalsed = !(
-    selectedAddOns.customizableProfile ||
-    selectedAddOns.largerStorage ||
-    selectedAddOns.onlineService
-  );
-
-  // Handle add-on toggle
-  const handleToggle = (addOn) => {
-    setSelectedAddOns((prevState) => {
-      const newState = {
-        ...prevState,
-        [addOn]: !prevState[addOn],
-      };
-      // Update global state via context
-      setAddOns(newState);
-      return newState;
-    });
-  };
+  const isFalsed = !(customizableProfile || largerStorage || onlineService);
 
   return (
     <div>
@@ -51,26 +32,28 @@ function AddOns() {
         <AddOn
           title="Online service"
           description="Access to multiplayer games"
-          price={state.isYearly ? 10 : 1}
-          isChecked={selectedAddOns.onlineService}
-          onChange={() => handleToggle("onlineService")}
-          isYearly={state.isYearly}
+          price={isYearly ? 10 : 1}
+          isChecked={onlineService}
+          onChange={() => handleToggleAddons("onlineService", selectedAddOns)}
+          isYearly={isYearly}
         />
         <AddOn
           title="Larger storage"
           description="Extra 1TB of cloud save"
-          price={state.isYearly ? 20 : 2}
-          isChecked={selectedAddOns.largerStorage}
-          onChange={() => handleToggle("largerStorage")}
-          isYearly={state.isYearly}
+          price={isYearly ? 20 : 2}
+          isChecked={largerStorage}
+          onChange={() => handleToggleAddons("largerStorage", selectedAddOns)}
+          isYearly={isYearly}
         />
         <AddOn
           title="Customizable profile"
           description="Custom theme on your profile"
-          price={state.isYearly ? 20 : 2}
-          isChecked={selectedAddOns.customizableProfile}
-          onChange={() => handleToggle("customizableProfile")}
-          isYearly={state.isYearly}
+          price={isYearly ? 20 : 2}
+          isChecked={customizableProfile}
+          onChange={() =>
+            handleToggleAddons("customizableProfile", selectedAddOns)
+          }
+          isYearly={isYearly}
         />
       </AddOnContainer>
       <Row>

@@ -16,7 +16,10 @@ const StyledCard = styled.div`
   color: var(--Marine-blue);
   margin: 10px;
   cursor: pointer;
-
+  &:hover {
+    background-color: var(--Magnolia);
+    border: 1px solid var(--Purplish-blue);
+  }
   img {
     width: 40px;
     margin-bottom: 30px;
@@ -35,7 +38,7 @@ const StyledCard = styled.div`
 `;
 const StyledP = styled.p`
   margin-top: 10px;
-  font-family: UbuntuM;
+  font-family: Ubuntu;
   color: var(--Marine-blue);
   font-size: 10px;
 `;
